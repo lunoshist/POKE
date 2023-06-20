@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+body {
+    overflow: hidden;
+    background-color: white;
+}
+
+.hide {
+    display: none !important;
+}
+
+.loading-ball {
+    height: 60px;
+    filter: brightness(80%);
+    animation: rotatePokeBall ease-in-out 3s infinite;
+}
+
+@keyframes rotatePokeBall {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loading-div {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+    background-color: white; 
+}
+
+.hideLoading {
+    animation: hideLoading ease-in-out 0.5s;
+    animation-fill-mode: forwards; 
+}
+
+@keyframes hideLoading {
+    0% {top: 0}
+    100% {top: -100vh;}
+}
+
+
+#list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+
+.card {
+    min-width: 125px;
+    aspect-ratio: 1;
+    background-color: white;
+    background-size: contain !important;
+    color: #ff7673;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    padding: 16px;
+    margin: 32px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+.card p {
+    
+    font-family: 'Anton';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    margin: -15px;
+
+    color: #FFFFFF;
+    
+    text-shadow: 2px -2px 10px rgba(255, 0, 0, 0.5), -2px 2px 10px rgba(255, 0, 0, 0.5), -2px -2px 4px #F1B3B3, 3px 2px 5px #F1B3B3;
+    transform: rotate(-90deg);
+}
+
+#search-bar-container {
+    margin: 30px 10px;
+
+    border-radius: 20px;
+    box-shadow: #EDEDED 0 10px 10px;
+    padding: 15px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+}
+
+#start-search-button {
+    background-color: #FF5350;
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: #ff535088 5px 5px 15px;
+    color: white;
+    font-size: 18px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: column;
+}
+
+#start-search-button:hover {
+    opacity: 0.8;
+    box-shadow: #ff53509c 3px 3px 13px;
+}
+
+#search-input {
+    border: none;
+    outline: none;
+    font-size: 18px;
+    flex: 1;
+}
+
+
+i {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    content: "\F002";
+}

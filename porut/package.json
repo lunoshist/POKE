@@ -1,0 +1,14 @@
+{
+  "name": "porut",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jstest.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lunoshist",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.25.0"
+  }
+}
