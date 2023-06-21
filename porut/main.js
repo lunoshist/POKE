@@ -1,7 +1,12 @@
+  //---CRÉATOIN DU LIEN AVEC SUPABASE
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-const supabase = createClient('https://ndmvweijowxkfextdhfc.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kbXZ3ZWlqb3d4a2ZleHRkaGZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODcxNjY3NDUsImV4cCI6MjAwMjc0Mjc0NX0.PpVwOCmEciVqmHpUphOAroKaQ3sNUWiBgqnzChHWvvc')
 
+const url = process.env.SUPABASE_URL
+const anonKey = process.env.SUPABASE_ANON_KEY
 
+const supabase = createClient(url, anonKey)
+
+//---REQUETTE POUR OBTENIR TOUS LES NOM DES POKÉMONS
 var { data, err } = await supabase
   .from('list')
   .select('*')
@@ -9,6 +14,7 @@ var { data, err } = await supabase
 console.table(data);
 display(data)
 
+//---ANIMATION DU LE LOADER
 function loadingCompletion() {
   const loadingDiv = document.getElementById('loading-div');
   loadingDiv.classList.add('hideLoading');
@@ -19,6 +25,7 @@ function loadingCompletion() {
   }, 500);
 };
 
+//---AFFICHE UNE CARD POUR CHAQUE POKEMON
 function display(pokemons) {
 
   pokemons.forEach(pokemon => {
@@ -34,8 +41,8 @@ function display(pokemons) {
   loadingCompletion()
 }
 
+//---BARRE DE RECHERCHE
 document.getElementById('search-input').addEventListener('input', search)
-
 
 function search() {
 
@@ -54,7 +61,7 @@ function search() {
   display(searchResults)
 }
 
-
+//---CHECK SI UNE CARD EST CLICKER
 Array.from(document.getElementsByClassName('card')).forEach(pokemon => {
   pokemon.addEventListener('click', () => {
       console.log(pokemon.dataset.id)
@@ -62,29 +69,60 @@ Array.from(document.getElementsByClassName('card')).forEach(pokemon => {
       openInfo(pokemon.dataset.id)})
 })
 
+//---REQUETTE POUR OBTENIR LES INFOS D'UN POKEMON
 async function openInfo(id) {
-  var { info , err } = await supabase
+  var list = await supabase
     .from('list')
     .select(`
-        id_pok,
-        type (
-            *
-        ),
-        stats (
-            *
-        ),
-        weaknesses (
-            *
-        )
-    `)
-    .eq('id_pok', id);
+                id_pok,
+                type (
+                    *
+                ),
+                stats (
+                    *
+                ),
+                weaknesses (
+                    *
+                )
+            `)
+    .eq('id_pok', id)
 
-  var { evo1 , ror } = await supabase
+    console.log(list);
+    console.log(list.data);
+
+  var evo1 = await supabase
     .from('evolution')
     .select('*')
     .or(`id_pok_base.eq.${id},id_pok_evol.eq.${id}`)
-          
-  console.info(info,evo1);
+
+    console.log(evo1.data);
 }
 
-[{"id_pok":6,"type":[{"id":6,"id_pok":6,"type1":"fire","type2":"flying"}],"stats":[{"id":6,"id_pok":6,"hp":78,"attack":104,"defense":78,"sp_attack":159,"sp_defense":115,"speed":100}],"weaknesses":[{"id":6,"id_pok":6,"bug":0.25,"dragon":1,"electric":2,"fairy":0.5,"fight":0.5,"fire":0.5,"flying":1,"ghost":1,"grass":0.25,"ground":0,"ice":1,"normal":1,"poison":1,"psychic":1,"rock":4,"steel":0.5,"water":2}]}]
+//---AFFICHE LES DONNÉ D'UN POKEMON
+function precise(info, evolution) {
+  
+}
+
+//---AUTHENTIFICATION
+async function signInWithEmail(mail, mdp) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: mail,
+    password: mdp,
+  })
+}
+async function signInWithDiscord() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'discord',
+  })
+}
+async function signInWithGitHub() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+  })
+}
+
+
+
+async function signout() {
+  const { error } = await supabase.auth.signOut()
+}
